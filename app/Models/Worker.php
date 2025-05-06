@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+use App\Models\Travel;
+use App\Models\Type;
+use App\Models\Worker;
+
+
+
+class Worker extends Model
+{
+    
+    protected $fillable=['id','name','email', 'phone'];
+
+
+function travels(){
+
+    return $this->belongsToMany(Travel::class);
+}
+
+
+
+
+
+
+
+}
