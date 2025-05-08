@@ -44,6 +44,7 @@
 
 </form>
 
+<!--pREGUNTAR LO DE LO BORRA TODOD LOS TRABAJADORES-->
 
         <form action="{{ route('deleteTravel', $travel->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este viaje?');">
             @csrf

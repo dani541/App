@@ -18,16 +18,43 @@ class TravelController extends Controller
 
         $workers=Worker::all();
 
-        $types=Type::all();
+       $types=Type::all();
 
-        return view ('home', compact('travels', 'types' ,'workers'));
+        return view ('home', compact('travels','types','workers'));
 
 
     }
 
 
+    public function store(Request $request)
+    {
+        // Validación
+        $validated = $request->validate([
+            'origin' => 'required|string',
+            'destination' => 'required|string',
+            'departDate' => 'required|date',
+            'returnDate' => 'required|date',
+            'price' => 'required|numeric',
+            'type_id' => 'required|exists:types,id',
+            'workers' => 'required|array',
+            'workers.*' => 'exists:workers,id',
+        ]);
+    
+        // Separamos los workers
+        $workerIds = $validated['workers'];
+        unset($validated['workers']); // quitamos 'workers' antes del create
+    
+        // Creamos el viaje sin 'workers'
+        $travel = Travel::create($validated);
+    
+        // Adjuntamos los workers al viaje
+        $travel->workers()->attach($workerIds);
+    
+        return redirect()->route('home')->with('success', 'Viaje creado correctamente');
+    }
 
 
+/*
     function store(Request $request){
 
         $request->validate([
@@ -59,7 +86,7 @@ class TravelController extends Controller
 
     }
 
-
+*/
 
 
     function modify($id){
@@ -89,7 +116,10 @@ class TravelController extends Controller
     
     
         
-        return redirect()->route('editTravel', $id)->with('success', 'Creado con éxito');
+       // return redirect()->route('editTravel', $id)->with('success', 'Creado con éxito');
+
+       return redirect()->route('home')->with('success', 'Creado con éxito');
+
 
     }
 

@@ -7,54 +7,51 @@
 </head>
 <body>
     <h2>Home</h2>
-
     <form action="{{ route('storeTravel') }}" method="POST">
-        @csrf
+    @csrf
 
-        <label for="">Origen:</label>
-        <input type="text" name="origin" required>
-        <br><br>
+    <label for="origin">Origen:</label>
+    <input type="text" name="origin" id="origin" required>
+    <br><br>
 
-        <label for="">Destino:</label>
-        <input type="text" name="destination" required>
-        <br><br>
+    <label for="destination">Destino:</label>
+    <input type="text" name="destination" id="destination" required>
+    <br><br>
 
-        <label for="">Fecha salida:</label>
-        <input type="date" name="start_date" required>
-        <br><br>
+    <label for="departDate">Fecha salida:</label>
+    <input type="date" name="departDate" id="departDate" required>
+    <br><br>
 
-        <label for="">Fecha llegada:</label>
-        <input type="date" name="end_date" required>
-        <br><br>
+    <label for="returnDate">Fecha llegada:</label>
+    <input type="date" name="returnDate" id="returnDate" required>
+    <br><br>
 
-        <label for="">Precio:</label>
-        <input type="number" name="price" required>
-        <br><br>
+    <label for="price">Precio:</label>
+    <input type="number" name="price" id="price" required>
+    <br><br>
 
+    <label for="type_id">Tipo:</label>
+    <select name="type_id" id="type_id" required>
+        @foreach ($types as $type)
+            <option value="{{ $type->id }}">{{ $type->name }}</option>
+        @endforeach
+    </select>
+    <br><br>
 
-        <label for="">Tipo:</label>
-            <select name="type" multiple required>
-                @foreach ($types as $type)
-                    <option value="{{ $type->id }}">{{ $type->name }}</option>
-                @endforeach
-        </select>
+    <label for="workers">Trabajadores:</label>
+    <select name="workers[]" id="workers" multiple required>
+        @foreach ($workers as $worker)
+            <option value="{{ $worker->id }}">{{ $worker->name }}</option>
+        @endforeach
+    </select>
+    <br><br>
 
-        <br><br>
-
-        <label for="">Trabajadores:</label>
-            <select name="worker_ids[]" multiple required>
-                @foreach ($workers as $worker)
-                    <option value="{{ $worker->id }}">{{ $worker->name }}</option>
-                @endforeach
-        </select>
-
-
-        <br><br>
-
-    </form>
+    <button type="submit">Crear viaje</button>
+</form>
 
 
-    <h3>Lista de viajes</h3>
+
+    <h2>Lista de viajes</h3>
 
 
         @foreach($travels  as $travel)
@@ -64,7 +61,19 @@
             <p>Destino: {{$travel->destination}}</p>  
             <p>Precio: {{$travel->price}}</p>
 
+            <p>Tipo: {{ $travel->type->name }}</p>  <!-- preguntar -->
 
+            <br>
+            <h4>Trabajador@s </h3>
+            @foreach($travel->workers as $worker)
+
+                <p>Nombre:{{$worker->name}}</p>
+                <p>Nombre:{{$worker->email}}</p>
+                <p>Nombre:{{$worker->phone}}</p>
+
+            @endforeach
+            
+            <br>
             <form action="{{ route('travelE', $travel->id) }}" method="GET">
                 <button type="submit">Actualizar viaje</button>
             </form>

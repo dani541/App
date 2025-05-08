@@ -14,7 +14,7 @@ Route::get('/', function () {
 
 
 
-Route::get('/home', [TravelController::class, 'create']);
+Route::get('/home', [TravelController::class, 'create'])->name('home');
 
 Route::post('/home', [TravelController::class, 'store'])->name('storeTravel');
 

@@ -13,7 +13,7 @@ class Travel extends Model
     //
 
 
-    protected $fillable= ['id', 'origin', 'departDate', 'returnDate', 'price', 'workers', 'type'];
+    protected $fillable= ['id', 'origin', 'destination', 'departDate', 'returnDate', 'price', 'workers', 'type_id'];  //preguntar
 
 
     function workers(){
